@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href={{ static_url('css/bootstrap.css') }}>
+</head>
+<body>
+
+<table class="table table-bordered">
+
+
+  <tbody>
+    <tr>
+      <th scope="row">学员编号</th>
+      <td id="stuid">{{ stu.stuid }}</td>
+    </tr>
+    <tr>
+      <th scope="row">学员姓名</th>
+      <td id="stuname">{{ stu.stu.name }}</td>
+    </tr>
+    <tr>
+      <th scope="row">当前班级</th>
+      <td>{{ stu.cls_name.class_name }}</td>
+    </tr>
+    <tr>
+      <th scope="row">可调整班级</th>
+        <td>
+            <select class="form-control">
+                {% for cls in res %}
+                <option name='class' value={{ cls.class_id }}>{{ cls.class_name }}</option>
+                {% end %}
+            </select>
+        </td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary" style="width:100%;" id="submit">提交</button>
+
+<script src={{ static_url('js/jquery.js') }}></script>
+<script src={{ static_url('js/popper.min.js') }}></script>
+<script src={{ static_url('js/bootstrap.js') }}></script>
+<script src={{ static_url('js/level.js') }}></script>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipient = button.data('whatever'); // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.modal-title').text('New message to ' + recipient);
+        modal.find('.modal-body textarea').val(recipient)
+    })
+</script>
+</body>
+</html>

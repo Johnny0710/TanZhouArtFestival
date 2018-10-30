@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} 基础页 {% end %}</title>
+    <link rel="stylesheet" href={{ static_url('css/bootstrap.css') }}>
+    <style>
+        body{
+            background: url("https://desk-fd.zol-img.com.cn/t_s2880x1800c5/g5/M00/01/05/ChMkJ1nJ2yaANjZTAQ7GAVGw3sI128.jpg");
+            color: black;
+        }
+    </style>
+
+</head>
+<body  >
+<div class="div-head" style="height: 80px">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 fixed-top ">
+        <a class="navbar-brand" href="#">潭州文化艺术节</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span
+                class="navbar-toggler-icon">
+            </span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarCollapse">
+            <ul class="navbar-nav mr-auto float-right">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">切换班级 </a>
+                </li>
+            </ul>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_user() }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="/loginout">退出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container">
+        {% block content %} 基础内容 {% end %}
+</div>
+<script src={{ static_url('js/jquery.js') }}></script>
+<script src={{ static_url('js/popper.min.js') }}></script>
+<script src={{ static_url('js/bootstrap.js') }}></script>
+{% block js %}{% end %}
+</body>
+</html>

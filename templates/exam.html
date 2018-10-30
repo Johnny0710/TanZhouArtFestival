@@ -1,0 +1,122 @@
+{% extends base.html %}
+
+{% block title %} 学员考试情况 {% end %}
+
+{% block content %}
+{% include btn.html %}
+<table class="table" style="text-align: center;background-color: #FFFFFF">
+    <thead>
+    <tr>
+        <th scope="col">序号</th>
+        <th scope="col">学员编号</th>
+        <th scope="col">学员姓名</th>
+        <th scope="col">所属班级</th>
+        <th scope="col">当期成绩</th>
+        <th scope="col">考试时间</th>
+        <th scope="col">往期成绩</th>
+        <th scope="col">添加成绩</th>
+        <th scope="col">班级管理</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set i = 0 %}
+    {% for stu in stus %}
+    {% set i += 1 %}
+    <tr>
+        <th scope="row">{{ i }}</th>
+        <td>{{ stu.stuid }}</td>
+        <td>{{ stu.stu.name }}</td>
+        <td>{{ stu.cls_name.class_name }}</td>  {#   当前学员的的当前班级 #}
+        {% if stu.stuid in exams %}
+        <td>{{ exams[stu.stuid][0] }}</td>
+        <td>{{ exams[stu.stuid][1] }}</td>
+        {% else %}
+        <td>当期未考试</td>
+        <td>当期未考试</td>
+        {% end %}
+        <td>
+            <button type="button" class="btn btn-primary showscore" data-toggle="modal" data-target="#score_window">
+                查看往期成绩
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-primary add_score_btn" data-toggle="modal" data-target="#add_score" >
+                添加成绩
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-primary upclass" data-toggle="modal" data-target="#level_window">
+                升班
+            </button>
+            <button type="button" class="btn btn-primary downclass" data-toggle="modal" data-target="#level_window">
+                降班
+            </button>
+            <button type="button" class="btn btn-primary repeatclass"  data-toggle="modal" data-target="#level_window">留级</button>
+        </td>
+
+    </tr>
+    {% end %}
+    </tbody>
+</table>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="level_window">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <iframe id="level" src="/level/" frameborder="0" style="width: 100%;height: 278px"></iframe>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+     id="score_window">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">班级</th>
+                    <th scope="col">分数</th>
+                    <th scope="col">考试时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id="score_close">Close</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+     id="add_score" >
+    <div class="modal-dialog" style="width: 350px">
+        <div class="modal-content">
+            <table class="table table-bordered">
+                <thead>
+                <tr >
+                    <th scope="col">学员编号: <span id="stu_id"></span> </th>
+                </tr>
+                <tr >
+                    <th scope="col">学员姓名:<span id="stuname"></span></th>
+                </tr>
+                <tr >
+                    <th scope="col">当期分数: <input type="text" id="input_score" style="width: 230px"></th>
+                </tr>
+                <tr >
+                    <th scope="col">考试时间: <input type="datetime-local" id="input_date"  ></th>
+                </tr>
+                </thead>
+            </table>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="submit_score">提交</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block js %}
+<script src={{ static_url('js/exam.js') }}></script>
+<script>
+    $('#search').keyup(function () {
+        $('table tbody tr').hide().filter(":contains('" + ($(this).val()) + "')").show()
+    });
+</script>
+{% end %}

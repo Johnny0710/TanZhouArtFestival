@@ -1,0 +1,115 @@
+{% extends base.html %}
+
+{% block title %} 学员信息表 {% end %}
+
+{% block content %}
+{% include btn.html %}
+<div class="float-right">
+    <a class="btn btn-primary" href="#" role="button" style="margin-right: 10px" id="add_student" data-toggle="modal" data-target="#exampleModalLong">添加学员</a>
+</div>
+<table class="table" style="text-align: center;background-color: #FFFFFF">
+
+  <thead>
+    <tr>
+      <th scope="col">序号</th>
+      <th scope="col">学员编号</th>
+      <th scope="col">姓名</th>
+      <th scope="col">班级</th>
+      <th scope="col" class="tel">电话</th>
+      <th scope="col" class="qq">QQ</th>
+      <th scope="col" class="hiredate">入学日期</th>
+      <th scope="col" class="resttime">休学日期</th>
+      <th scope="col" class="rest">状态</th>
+      <th scope="col" class="operate">操作</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% set i=0 %}
+  {% if stus %}
+    {% for stu in stus %}
+    {%   set i+=1 %}
+
+    <tr>
+        <th scope="row">{{ i }}</th>
+        <td class="stuid">{{ stu.stu.stuid }}</td>
+        <td class="name">{{ stu.stu.name }}</td>
+        <td class="class_name">{{ stu.cls_name.class_name }}</td>
+        <td class="tel">{{ stu.stu.tel }}</td>
+        <td class="qq">{{ stu.stu.qq }}</td>
+        <td class="hiredate ">{{ stu.stu.enrollment }}</td>
+        {% if stu.stu.rest %}
+        <td class="resttime">{{ stu.stu.resttime }}</td>
+        {% else %}
+        <td class="resttime"></td>
+        {% end %}
+        {% if not stu.stu.rest %}
+        <td class="rest"> 正常 </td>
+        {% else %}
+        <td class="rest"> 休学 </td>
+        {% end %}
+        <td class="operate">
+            <button type="button" class="btn btn-secondary reset" value="0">正常</button>
+            <button type="button" class="btn btn-secondary reset" value="1">休学</button>
+        </td>
+    </tr>
+    {% end %}
+  {% end %}
+  </tbody>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">添加新学员</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th scope="row">学员编号 : </th>
+      <td><input type="text" id="stuid" style="width: 100%"></td>
+    </tr>
+    <tr>
+      <th scope="row">学员姓名 : </th>
+      <td><input type="text" id="stuname" style="width: 100%"></td>
+    </tr>
+    <tr>
+      <th scope="row">联系电话 : </th>
+      <td><input type="text" id="tel" style="width: 100%"></td>
+    </tr>
+    <tr>
+      <th scope="row">QQ : </th>
+      <td><input type="text" id="qq" style="width: 100%"></td>
+    </tr>
+    <tr>
+      <th scope="row">所属班级 : </th>
+        <td>
+            <select style="width: 100%" id="class_id">
+                {% for cls in clss %}
+                <option name='class' value={{ cls.class_id }}>{{ cls.class_name }}</option>
+                {% end %}
+            </select>
+        </td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="send_student">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% end %}
+{% block js %}
+<script src={{ static_url('js/student.js') }}></script>
+{% end %}

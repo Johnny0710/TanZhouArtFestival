@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href={{ static_url('css/bootstrap.css') }}>
+</head>
+<body>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">序号</th>
+      <th scope="col">学员编号</th>
+      <th scope="col">学员姓名</th>
+      <th scope="col">作业内容</th>
+      <th scope="col">提交日期</th>
+      <th scope="col">提交评语</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% if workfinishs %}
+  {% set i = 0 %}
+  {% for workfinish in workfinishs %}
+  {% set i += 1 %}
+  <tr>
+      <th>{{ i }}</th>
+      <td>{{ workfinish.stuid }}</td>
+      <td>{{ workfinish.finish_stu.name }}</td>
+      <td data-toggle="tooltip" data-placement="top" title= "{{ workfinish.content }}" class="d-inline-block text-truncate" style="max-width:150px ">{{ workfinish.content }}</td>
+      <td>{{ workfinish.submit }}</td>
+      {% if workfinish.remark  %}
+      <td>
+          <button type="button" class="btn btn-primary pop" data-toggle="modal"
+                  data-placement="top"   data-target="#exampleModal"
+                  title= "已添加评语:{{ workfinish.remark }} "
+                  data-whatever="{{ workfinish.remark }}" >修改评语</button>
+      </td>
+      {% else %}
+      <td>
+          <button type="button" class="btn btn-primary pop" data-toggle="modal"
+                  data-placement="top" data-target="#exampleModal"
+                   title= "暂未添加评语" >添加评语
+          </button>
+      </td>
+      {%  end %}
+  </tr>
+  {% end %}
+  {% end %}
+
+  </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">评语:</label>
+            <textarea  class="form-control" id="recipient-name"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">取消</button>
+        <button type="button" class="btn btn-primary" id="send_remark" data-dismiss="modal">提交评语</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src={{ static_url('js/jquery.js') }}></script>
+<script src={{ static_url('js/popper.min.js') }}></script>
+<script src={{ static_url('js/bootstrap.js') }}></script>
+<script src={{ static_url('js/inspect.js') }}></script>
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipient = button.data('whatever'); // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.modal-title').text('New message to ' + recipient);
+        modal.find('.modal-body textarea').val(recipient)
+    })
+</script>
+</body>
+</html>

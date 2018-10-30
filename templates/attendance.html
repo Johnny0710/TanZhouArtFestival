@@ -1,0 +1,55 @@
+{% extends base.html %}
+
+{% block title %} 学员考情表 {% end %}
+
+{% block content %}
+{% include btn.html %}
+<table class="table" style="text-align: center;background-color: #FFFFFF">
+  <thead>
+    <tr>
+      <th scope="col">序号</th>
+      <th scope="col">学员编号</th>
+      <th scope="col">姓名</th>
+      <th scope="col">班级</th>
+      <th scope="col">状态</th>
+      <th scope="col">日期</th>
+      <th scope="col">操作</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% set i=0 %}
+    {% for stu in stus %}
+    {% set i+=1 %}
+    <tr>
+        <th scope="row">{{ i }}</th>
+        <td>{{ stu.stu.stuid }}</td>
+        <td>{{ stu.stu.name }}</td>
+        <td>{{ stu.cls_name.class_name }}</td>
+        {% if attens %}
+        {% if stu.stu.stuid in attens %}
+        <td>{{ attens[stu.stu.stuid][0] }}</td>
+        <td>{{ attens[stu.stu.stuid][1] }}</td>
+        {% else %}
+        <td>当日未考勤</td>
+        <td></td>
+        {% end %}
+        {% else %}
+        <td>当日未考勤</td>
+        <td></td>
+        {% end %}
+
+
+        <td>
+            <button type="button" class="btn btn-secondary" value="1">正常</button>
+            <button type="button" class="btn btn-secondary" value="2">请假</button>
+            <button type="button" class="btn btn-secondary" value="3">旷课</button>
+        </td>
+    </tr>
+    {% end %}
+  </tbody>
+</table>
+{% end %}
+{% block js %}
+<script src={{ static_url('js/attendance.js') }}></script>
+{% end %}

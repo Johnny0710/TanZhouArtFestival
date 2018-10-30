@@ -1,0 +1,23 @@
+{% extends base.html %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-sm" style="margin:auto">
+        您当前负责的班级 <br>
+        {% if islead %}
+        {% for cls in clss %}
+        <a class="btn btn-primary" href="/cls/{{ cls.ltt_cls.cls_name.class_id }}"
+           role="button">{{ cls.ltt_cls.cls_name.class_name }}<br>负责老师:{{ cls.ltt_cls.ltc.name }}</a>
+        {% end %}
+        {% else %}
+        {% for cls in clss.ltc %}
+        <a class="btn btn-primary" href="/cls/{{ cls.class_id }}" role="button">{{ cls.cls_name.class_name }}</a>
+        {% end %}
+        {% end %}
+        {% end %}
+    </div>
+    <div class="col-sm">
+
+    </div>
+</div>

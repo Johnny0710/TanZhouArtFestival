@@ -1,0 +1,66 @@
+{% extends base.html %}
+{% block title %} 作业管理 {% end %}
+
+{% block content %}
+
+<div class="row">
+{#    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="123456">#}
+{#  Tooltip on top#}
+{#</button>#}
+    <div class="col"></div>
+    <div class="col-12">
+        {% include btn.html %}
+        <table class="table" style="text-align: center;background-color: #FFFFFF">
+            <thead>
+            <tr>
+                <th scope="col">序号</th>
+                <th scope="col">作业编号</th>
+                <th scope="col">作业标题</th>
+                <th scope="col">作业内容</th>
+
+                <th scope="col">已交/未交/总人数</th>
+                <th scope="col">查看详情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set i=0 %}
+            {% for homework in homeworks %}
+            {% set surplus = len(homework.cls_home.cls_name)-len(homework.fin_num) %}
+            {% if surplus <0 %}
+            {% set surplus = 0 %}
+            {% end %}
+            {% set i+=1 %}
+            <tr>
+                <th scope="row">{{ i }}</th>
+                <td>{{ homework.workid }}</td>
+                <td data-toggle="tooltip" data-placement="top" title= "{{ homework.titile }}">{{ homework.titile }}</td>
+                <td class="d-inline-block text-truncate content" data-toggle="tooltip" data-placement="top" title= "{{ homework.content }}"  style="max-width: 250px;">{{ homework.content }}</td>
+                <td>{{ len(homework.fin_num) }} / {{ surplus }} / {{ len(homework.cls_home.cls_name) }}</td>
+                <td><button class="btn btn-primary inspect" data-toggle="modal" data-target=".bd-example-modal-lg" role="button" >检查作业</button></td>
+            </tr>
+
+            {% end %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col"></div>
+</div>
+
+<div class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <iframe id="inspect" src="/inspect" frameborder="0" style="height: 600px;width: 800px"></iframe>
+    </div>
+  </div>
+</div>
+
+{% end %}
+{% block js %}
+<script src={{ static_url('js/homework.js') }}></script>
+<script>
+        $('#search').keyup(function () {
+        $('table tbody tr').hide().filter(":contains('"+($(this).val())+"')").show()
+    });
+</script>
+{% end %}

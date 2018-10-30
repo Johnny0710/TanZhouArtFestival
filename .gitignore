@@ -1,0 +1,12 @@
+.idea
+tz_sofrt
+statics/img
+statics/fonts
+statics/css/default.css
+statics/css/normalize.css
+statics/css/weather.css
+models/table.bak
+utils/new.bak
+alembic.ini
+test.py
+进度
